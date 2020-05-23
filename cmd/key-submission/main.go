@@ -18,6 +18,9 @@ func main() {
 	cleanup := telemetry.InitTracer(telemetry.STDOUT)
 	defer cleanup()
 
+	cleanup = telemetry.InitMeter(telemetry.STDOUT)
+	defer cleanup()
+
 	mainApp := app.NewBuilder().WithSubmission().Build()
 
 	err := mainApp.RunAndWait()
