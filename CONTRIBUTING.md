@@ -31,7 +31,7 @@ code to your fork, then open a PR against this repository.
 ### Prerequisites
 
 * Go (tested with 1.14)
-* Ruby (tested with 2.6.5)
+* Ruby (tested with 2.7.1)
 * Bundler
 * [protobuf](https://developers.google.com/protocol-buffers/) (tested with libprotoc 3.11.4)
 * [protoc-gen-go](https://github.com/golang/protobuf) (may only be needed to change `proto/*`)
@@ -100,7 +100,7 @@ The application has been tested with the Go programming language at version 1.14
 
 ### Install Ruby
 
-This sets up your Mac to run version 2.6.5 of Ruby, which is what the application has been tested at as of writing.
+This sets up your Mac to run version 2.7.1 of Ruby, which is what the application has been tested at as of writing.
 
 1. Install OpenSSL: `brew install openssl`
 1. Install Rbenv: `brew install rbenv ruby-build`
