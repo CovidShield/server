@@ -5,7 +5,7 @@ If you're at Shopify, it's probably best that you follow the setup instructions 
 This has been tested with the following environment:
 
 - macOS 10.15.4
-- Homebrew 2.2.17
+- [Homebrew](https://brew.sh/)
 
 ## Setup Dependencies
 
