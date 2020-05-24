@@ -7,4 +7,4 @@
 config/terraform/*/.terraform/*
 config/terraform/*/terraform.tfstate*
 /mysql-data
-
+/server
