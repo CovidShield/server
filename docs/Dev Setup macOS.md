@@ -80,7 +80,7 @@ This will place built files into `./build/release`.
 1. Setup some dev environment variables: `source scripts/dev_env_vars.sh`
 1. Setup the database: `./build/release/key-retrieval migrate-db`
 
-This will leave up the Key Retrieval server running at `http://localhost:8000`. You should see something like:
+This will leave up the Key Retrieval server running at `http://localhost:8001`. You should see something like:
 
 ```
 ... (more stuff) ...
