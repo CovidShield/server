@@ -70,9 +70,27 @@ This will place built files into `./build/release`.
 
 ## Setup the Database
 
-1. Set the database creds+URL: `export DATABASE_URL="root:somepasswordhere@tcp(localhost)/covidshield"`
-1. Set a Key Claim Token: `export KEY_CLAIM_TOKEN=thisisatoken=ON`
+1. Setup some dev environment variables: `source scripts/dev_env_vars.sh`
 1. Setup the database: `./build/release/key-retrieval migrate-db`
+
+This will leave up the Key Retrieval server running at `http://localhost:8000`. You should see something like:
+
+```
+... (more stuff) ...
+
+INFO[0000] released table lock on schema_migrations      component=db
+INFO[0000] migrations done                               component=db
+INFO[0000] running                                       component=expiration uuid=40dc0a34-8909-4ddd-44f2-40d2fd3d3cc4
+INFO[0000] deleted old diagnosis keys                    component=expiration count=0 uuid=40dc0a34-8909-4ddd-44f2-40d2fd3d3cc4
+INFO[0000] deleted old encryption keys                   component=expiration count=0 uuid=40dc0a34-8909-4ddd-44f2-40d2fd3d3cc4
+INFO[0000] starting server                               bind="0.0.0.0:8001" component=srvutil
+INFO[0000] started server                                addr="[::]:8001" bind="0.0.0.0:8001" component=srvutil
+INFO[0030] running                                       component=expiration uuid=5d988d3d-a4d9-4ca5-7342-9604b1ac109c
+INFO[0030] deleted old diagnosis keys                    component=expiration count=0 uuid=5d988d3d-a4d9-4ca5-7342-9604b1ac109c
+INFO[0030] deleted old encryption keys                   component=expiration count=0 uuid=5d988d3d-a4d9-4ca5-7342-9604b1ac109c
+```
+
+Kill it with `CTRL+C` after you see the above.
 
 ## Run the Servers
 
@@ -81,15 +99,15 @@ This will place built files into `./build/release`.
 This runs the Key Submission server at `http://localhost:8000`.
 
 1. Open a new terminal and move into the root of this cloned repo
-1. Set the database creds+URL: `export DATABASE_URL="root:somepasswordhere@tcp(localhost)/covidshield"`
-1. Set a Key Claim Token: `export KEY_CLAIM_TOKEN=thisisatoken=ON`
+1. Setup some dev environment variables: `source scripts/dev_env_vars.sh`
 1. Run the server `PORT=8000 ./build/release/key-submission`
 
 ### Run Key Retrieval
 
+This runs the Key Retrieval server at `http://localhost:8001`.
+
 1. Open a new terminal and move into the root of this cloned repo
-1. Set the database creds+URL: `export DATABASE_URL="root:somepasswordhere@tcp(localhost)/covidshield"`
-1. Set a Key Claim Token: `export KEY_CLAIM_TOKEN=thisisatoken=ON`
+1. Setup some dev environment variables: `source scripts/dev_env_vars.sh`
 1. Run the server: `PORT=8001 ./build/release/key-retrieval`
 
 ## Run Tests
@@ -103,4 +121,3 @@ This runs the Key Submission server at `http://localhost:8000`.
     ```
 1. Install dependencies for the tests: `bundle install`
 1. Run the tests: `make test`
-
