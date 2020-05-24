@@ -5,5 +5,5 @@ export ECDSA_KEY=30770201010420a6885a310b694b7bb4ba985459de1e79446dddcd1247c62ec
 
 export DB_USER=root
 export DB_PASS=somepasswordhere
-export DB_HOST=localhost
+export DB_HOST=127.0.0.1
 export DB_NAME=covidshield
