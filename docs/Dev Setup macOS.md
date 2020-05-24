@@ -53,6 +53,13 @@ This sets up your Mac to run version 2.6.5 of Ruby, which is what the applicatio
 1. Copy the `Docker.app` file to `/Applications`
 1. Run `Docker.app`
 
+### Install MySQL Build Dependencies
+
+These are needed for automated tests.
+
+1. Install MySQL client (for its header files): `brew install mysql`
+1. Install Ruby driver: `gem install mysql2 -- --with-cflags=\"-I/usr/local/opt/openssl@1.1/include\" --with-ldflags=\"-L/usr/local/opt/openssl@1.1/lib\"`
+
 ## Run Database (in Docker)
 
 This runs a MySQL database at `localhost` on port `3306` with a DB root user password of `somepasswordhere`. As of writing, this is MySQL 8.x.
