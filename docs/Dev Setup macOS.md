@@ -76,8 +76,21 @@ This will place built files into `./build/release`.
 
 ## Run the Servers
 
-1. Open a new terminal and go into the root of this cloned repo: `PORT=8000 ./build/release/key-submission`
-1. Open a new terminal and go into the root of this cloned repo: `PORT=8001 ./build/release/key-retrieval`
+### Run Key Submission
+
+This runs the Key Submission server at `http://localhost:8000`.
+
+1. Open a new terminal and move into the root of this cloned repo
+1. Set the database creds+URL: `export DATABASE_URL="root:somepasswordhere@tcp(localhost)/covidshield"`
+1. Set a Key Claim Token: `export KEY_CLAIM_TOKEN=thisisatoken=ON`
+1. Run the server `PORT=8000 ./build/release/key-submission`
+
+### Run Key Retrieval
+
+1. Open a new terminal and move into the root of this cloned repo
+1. Set the database creds+URL: `export DATABASE_URL="root:somepasswordhere@tcp(localhost)/covidshield"`
+1. Set a Key Claim Token: `export KEY_CLAIM_TOKEN=thisisatoken=ON`
+1. Run the server: `PORT=8001 ./build/release/key-retrieval`
 
 ## Run Tests
 
