@@ -62,9 +62,9 @@ func InitMeter(provider string) func() {
 	case STDOUT:
 		var pusher *push.Controller
 		pusher, err = metricstdout.InstallNewPipeline(metricstdout.Config{
-			Quantiles:   []float64{0.5, 0.9, 0.99},
+			Quantiles:   []float64{},
 			PrettyPrint: true,
-		})
+		}, push.WithStateful(false))
 		if err != nil {
 			break
 		}
@@ -87,7 +87,7 @@ func InitMeter(provider string) func() {
 		log(nil, err).WithField("provider", provider).Fatal("failed to initialize metric stdout exporter")
 	}
 
-	initSystemStatsRecorder()
+	initSystemStatsObserver()
 
 	return cleanupFunc
 }
