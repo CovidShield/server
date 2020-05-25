@@ -7,6 +7,7 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.4.2
 	github.com/gorilla/mux v1.7.4
+	github.com/shirou/gopsutil v2.20.4+incompatible
 	github.com/sirupsen/logrus v1.6.0
 	go.opentelemetry.io/otel v0.6.0
 	go.opentelemetry.io/otel/exporters/metric/prometheus v0.6.0

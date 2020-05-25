@@ -87,12 +87,14 @@ func InitMeter(provider string) func() {
 		log(nil, err).WithField("provider", provider).Fatal("failed to initialize metric stdout exporter")
 	}
 
+	initSystemStatsRecorder()
+
 	return cleanupFunc
 }
 
 // OpenTelemetryMiddleware adds monitoring around HTTP requests
 func OpenTelemetryMiddleware(next http.Handler) http.Handler {
-	tracer := global.Tracer("request")
+	tracer := global.Tracer("covidshield/request")
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		attrs, entries, spanCtx := httptrace.Extract(r.Context(), r)
