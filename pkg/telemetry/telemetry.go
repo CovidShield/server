@@ -22,8 +22,8 @@ var log = logger.New("telemetry")
 
 // Providers
 
-const STDOUT = "STDOUT"
-const PROMETHEUS = "PROMETHEUS"
+const STDOUT = "stdout"
+const PROMETHEUS = "prometheus"
 
 // InitTracer initializes the global trace provider
 func InitTracer() func() {
