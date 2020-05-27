@@ -18,7 +18,7 @@ func main() {
 	cleanupTracer := telemetry.InitTracer(telemetry.STDOUT)
 	defer cleanupTracer()
 
-	cleanupMeter := telemetry.InitMeter(telemetry.STDOUT)
+	cleanupMeter := telemetry.InitMeter(telemetry.PROMETHEUS)
 	defer cleanupMeter()
 
 	mainApp := app.NewBuilder().WithSubmission().Build()

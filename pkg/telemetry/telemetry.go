@@ -12,6 +12,7 @@ import (
 	"go.opentelemetry.io/otel/exporters/trace/stdout"
 	tracerstdout "go.opentelemetry.io/otel/exporters/trace/stdout"
 	"go.opentelemetry.io/otel/plugin/httptrace"
+	"go.opentelemetry.io/otel/sdk/metric/controller/pull"
 	"go.opentelemetry.io/otel/sdk/metric/controller/push"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 )
@@ -71,11 +72,11 @@ func InitMeter(provider string) func() {
 		cleanupFunc = pusher.Stop
 	case PROMETHEUS:
 		var exporter *prometheus.Exporter
-		exporter, err = prometheus.InstallNewPipeline(prometheus.Config{})
+		exporter, err = prometheus.InstallNewPipeline(prometheus.Config{}, pull.WithStateful(false))
 		if err != nil {
 			break
 		}
-		http.HandleFunc("/", exporter.ServeHTTP)
+		http.HandleFunc("/metrics", exporter.ServeHTTP)
 		go func() {
 			_ = http.ListenAndServe(":2222", nil)
 		}()
