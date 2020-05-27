@@ -2,6 +2,7 @@ package telemetry
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/Shopify/goose/logger"
 	"go.opentelemetry.io/otel/api/correlation"
@@ -25,21 +26,27 @@ const STDOUT = "STDOUT"
 const PROMETHEUS = "PROMETHEUS"
 
 // InitTracer initializes the global trace provider
-func InitTracer(provider string) func() {
+func InitTracer() func() {
 	// Some providers require cleanup
 	cleanupFunc := func() {}
 
+	tracerProvider := os.Getenv("TRACER_PROVIDER")
+	if tracerProvider == "" {
+		log(nil, nil).Info("TRACER_PROVIDER not set, tracing will not be generated.")
+		return cleanupFunc
+	}
+
 	var exporter *tracerstdout.Exporter
 	var err error
-	switch provider {
+	switch tracerProvider {
 	case STDOUT:
 		exporter, err = tracerstdout.NewExporter(stdout.Options{PrettyPrint: true})
 	default:
-		log(nil, nil).WithField("provider", provider).Fatal("Unsuported trace provider")
+		log(nil, nil).WithField("provider", tracerProvider).Fatal("Unsuported trace provider")
 	}
 
 	if err != nil {
-		log(nil, err).WithField("provider", provider).Fatal("failed to initialize exporter")
+		log(nil, err).WithField("provider", tracerProvider).Fatal("failed to initialize exporter")
 	}
 
 	// For the demonstration, use sdktrace.AlwaysSample sampler to sample all traces.
@@ -55,11 +62,17 @@ func InitTracer(provider string) func() {
 }
 
 // InitMeter initializes the global metric progider
-func InitMeter(provider string) func() {
+func InitMeter() func() {
 	cleanupFunc := func() {}
 
+	metricProvider := os.Getenv("METRIC_PROVIDER")
+	if metricProvider == "" {
+		log(nil, nil).Info("METRIC_PROVIDER not set, metrics will not be generated.")
+		return cleanupFunc
+	}
+
 	var err error
-	switch provider {
+	switch metricProvider {
 	case STDOUT:
 		var pusher *push.Controller
 		pusher, err = metricstdout.InstallNewPipeline(metricstdout.Config{
@@ -81,11 +94,11 @@ func InitMeter(provider string) func() {
 			_ = http.ListenAndServe(":2222", nil)
 		}()
 	default:
-		log(nil, nil).WithField("provider", provider).Fatal("Unsuported metric provider")
+		log(nil, nil).WithField("provider", metricProvider).Fatal("Unsuported metric provider")
 	}
 
 	if err != nil {
-		log(nil, err).WithField("provider", provider).Fatal("failed to initialize metric stdout exporter")
+		log(nil, err).WithField("provider", metricProvider).Fatal("failed to initialize metric stdout exporter")
 	}
 
 	initSystemStatsObserver()
