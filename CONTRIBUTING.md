@@ -1,11 +1,9 @@
 # Contributing Guidelines
 
-Welcome to CovidShield. Thank you for considering contributing to COVID Shield!
-
-Before you begin, make sure that you've read the [_Code of Conduct_](CODE_OF_CONDUCT.md).
+Welcome, and thank you for considering contributing to COVID Shield!
 
 - [Code of Conduct](#code-of-conduct)
-- [Reporting Bugs or Issues](#reporting-bugs-or-issues)
+- [Reporting Security Issues](#reporting-security-issues)
 - [Contributing Documentation](#contributing-documentation)
 - [Contributing Code](#contributing-code)
     1. [Set up a local development environment](#env-setup)   
@@ -16,11 +14,7 @@ Before you begin, make sure that you've read the [_Code of Conduct_](CODE_OF_CON
 
 First, please review this document and the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-## Reporting Bugs or Issues
-
-In the event that you find any bugs or issues, feel free to create issues in this repository, as long as they're in accordance with the guidelines mentioned in this document.
-
-### Reporting Security Issues
+## Reporting Security Issues
 
 COVID Shield takes security very seriously. In the interest of coordinated disclosure,
 we request that you report any potential vulnerabilities privately in accordance with
@@ -77,8 +71,8 @@ Note that 302 is a [MCC](https://www.mcc-mnc.com/): 302 represents Canada.
 
 <h3 id="run-tests">3. Run tests</h3>
 
-If you're not a Shopify employee, you'll need to point to your database server using the environment variables
-(note that the database will be clobbered so ensure that you don't point to a
+Set your database connection details using environment variables
+(note that the database will be clobbered so ensure that you don't use a
 production database):
 
 ```shell
@@ -98,7 +92,5 @@ Finally, run:
 ```shell
 $ make test
 ```
-
-If you're a Shopify employee, `dev up` will configure the database for you and install the above dependencies and `dev {build,test,run,etc.}` will work as you'd expect.
 
 Once you're happy with your changes, please fork the repository and push your code to your fork, then open a pull request against this repository.

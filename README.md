@@ -172,7 +172,7 @@ We hope to provide reference implementations on AWS, GCP, and Azure via [Hashico
 
 ## Metrics and Tracing
 
-CovidShield uses [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-go) to configure the metrics and tracing for the server, both the key retrieval and key submission.
+COVID Shield uses [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-go) to configure the metrics and tracing for the server, both the key retrieval and key submission.
 
 ### Metrics
 
@@ -190,7 +190,7 @@ In order to use Prometheus as a metrics solution, you'll need to be running it i
 
 You can follow the instructions [here](https://prometheus.io/docs/prometheus/latest/installation/) for running Prometheus. 
 
-You will need to edit the configuration file, `prometheus.yml` to add an additional target so it actually polls the metrics coming from the CovidShield server:
+You will need to edit the configuration file, `prometheus.yml` to add an additional target so it actually polls the metrics coming from the COVID Shield server:
 
 ```
 ...
