@@ -10,7 +10,6 @@ import (
 	"go.opentelemetry.io/otel/api/trace"
 	"go.opentelemetry.io/otel/exporters/metric/prometheus"
 	metricstdout "go.opentelemetry.io/otel/exporters/metric/stdout"
-	"go.opentelemetry.io/otel/exporters/trace/stdout"
 	tracerstdout "go.opentelemetry.io/otel/exporters/trace/stdout"
 	"go.opentelemetry.io/otel/plugin/httptrace"
 	"go.opentelemetry.io/otel/sdk/metric/controller/pull"
@@ -18,14 +17,34 @@ import (
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 )
 
-var log = logger.New("telemetry")
-
 // Providers
 
 const STDOUT = "stdout"
+const PRETTY = "pretty"
 const PROMETHEUS = "prometheus"
 
-// InitTracer initializes the global trace provider
+var log = logger.New("telemetry")
+
+type Cleanuper interface {
+	Cleanup()
+}
+
+// traceMetricCleaner implements Cleanuper.
+type traceMetricCleaner struct {
+	tracer func()
+	meter  func()
+}
+
+func (c *traceMetricCleaner) Cleanup() {
+	c.tracer()
+	c.meter()
+}
+
+func Initialize() Cleanuper {
+	return &traceMetricCleaner{tracer: InitTracer(), meter: InitMeter()}
+}
+
+// InitTracer initializes the global trace provider.
 func InitTracer() func() {
 	// Some providers require cleanup
 	cleanupFunc := func() {}
@@ -39,8 +58,8 @@ func InitTracer() func() {
 	var exporter *tracerstdout.Exporter
 	var err error
 	switch tracerProvider {
-	case STDOUT:
-		exporter, err = tracerstdout.NewExporter(stdout.Options{PrettyPrint: true})
+	case STDOUT, PRETTY:
+		exporter, err = tracerstdout.NewExporter(tracerstdout.Options{PrettyPrint: tracerProvider == PRETTY})
 	default:
 		log(nil, nil).WithField("provider", tracerProvider).Fatal("Unsuported trace provider")
 	}
@@ -61,7 +80,7 @@ func InitTracer() func() {
 	return cleanupFunc
 }
 
-// InitMeter initializes the global metric progider
+// InitMeter initializes the global metric progider.
 func InitMeter() func() {
 	cleanupFunc := func() {}
 
@@ -73,11 +92,11 @@ func InitMeter() func() {
 
 	var err error
 	switch metricProvider {
-	case STDOUT:
+	case STDOUT, PRETTY:
 		var pusher *push.Controller
 		pusher, err = metricstdout.InstallNewPipeline(metricstdout.Config{
 			Quantiles:   []float64{},
-			PrettyPrint: true,
+			PrettyPrint: metricProvider == PRETTY,
 		}, push.WithStateful(false))
 		if err != nil {
 			break
@@ -106,7 +125,8 @@ func InitMeter() func() {
 	return cleanupFunc
 }
 
-// OpenTelemetryMiddleware adds monitoring around HTTP requests
+// OpenTelemetryMiddleware adds monitoring around HTTP requests.
+// Be careful not to add anything here that captures personally-identify information such as IP addresses.
 func OpenTelemetryMiddleware(next http.Handler) http.Handler {
 	tracer := global.Tracer("covidshield/request")
 

@@ -15,11 +15,7 @@ func main() {
 
 	log(nil, nil).Info("starting")
 
-	cleanupTracer := telemetry.InitTracer()
-	defer cleanupTracer()
-
-	cleanupMeter := telemetry.InitMeter()
-	defer cleanupMeter()
+	defer telemetry.Initialize().Cleanup()
 
 	mainApp := app.NewBuilder().WithRetrieval().Build()
 

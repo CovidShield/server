@@ -180,7 +180,11 @@ Currently, the following options are supported for enabling Metrics:
 * standard output
 * prometheus
 
-Metrics can be enabled by setting the `METRIC_PROVIDER` variable to either `stdout`, or `prometheus`.
+Metrics can be enabled by setting the `METRIC_PROVIDER` variable to `stdout`, `pretty`, or `prometheus`.
+
+Both `stdout` and `pretty` will send metrics output to stdout but differ in their formatting. `stdout` will print
+the metrics as JSON on a single line whereas `pretty` will format the JSON in a human-readable way, split across
+multiple lines.
 
 If you want to use Prometheus, please see the additional configuration requirements below.
 
@@ -202,9 +206,14 @@ You will need to edit the configuration file, `prometheus.yml` to add an additio
 
 Currently, the following options are supported for enabling Tracing:
 * standard output
-* prometheus
 
-Tracing can be enabled by setting the `TRACER_PROVIDER` variable to either `stdout`, or `prometheus`.
+Tracing can be enabled by setting the `TRACER_PROVIDER` variable to `stdout` or `pretty`.
+
+Both `stdout` and `pretty` will send trace output to stdout but differ in their formatting. `stdout` will print
+the trace as JSON on a single line whereas `pretty` will format the JSON in a human-readable way, split across
+multiple lines.
+
+Note that logs are emitted to `stderr`, so with `stdout` mode, logs will be on `stderr` and metrics will be on `stdout`.
 
 ## Contributing
 
