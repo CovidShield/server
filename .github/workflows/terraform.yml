@@ -32,8 +32,6 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 0.13.0
 
     - name: Terraform Init
       run: terraform init
@@ -84,7 +82,7 @@ jobs:
         GITHUB_SHA: ${{ github.sha }}
         submission: submission.covidshield.app
         retrieval: retrieval.covidshield.app
-
+        
       run: |
         source ../../../bin/verify-deployment.sh
-        verify_deployments -c $GITHUB_SHA -e $submission -e $retrieval
+        verify_deployments -c $GITHUB_SHA -e $submission -e $retrieval 
