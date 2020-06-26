@@ -31,9 +31,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 0.13.0
+      uses: hashicorp/setup-terraform@da17847d115ff1e5987848a1030cfc415b0a3a5c
 
     - name: Terraform Init
       run: terraform init
