@@ -19,9 +19,9 @@ const (
 // ago is the oldest data.
 const maxDiagnosisKeyRetentionDays = 15
 
-// A generated keypair can upload up to 28 keys (14 on day 1, plus 14
-// subsequent days)
-const initialRemainingKeys = 28
+// A generated keypair can upload up to 43 keys (15 on day 1, plus 2 for 14 subsequent days
+// if they upload once per day)
+const initialRemainingKeys = 43
 
 // (Legal requirement: <21)
 // When we assign an Application Public Key to a server keypair, we reset the
