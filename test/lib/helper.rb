@@ -81,7 +81,7 @@ module Helper
     end
 
     def diagnosis_originators
-      @dbconn.query("SELECT originator FROM encryption_keys").map(&:values).map(&:first)
+      @dbconn.query("SELECT originator FROM diagnosis_keys").map(&:values).map(&:first)
     end
       def new_valid_one_time_code
         resp = @sub_conn.post do |req|
