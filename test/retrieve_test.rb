@@ -79,6 +79,40 @@ class RetrieveTest < MiniTest::Test
     assert_keys(export, keys, region: 'CA', date_number: dn)
   end
 
+  def test_all_keys
+    active_at = time_in_date('10:00', today_utc.prev_day(8))
+    two_days_ago = yesterday_utc.prev_day(1)
+    fourteen_days_ago = yesterday_utc.prev_day(13)
+    fifteen_days_ago = yesterday_utc.prev_day(14)
+
+    # Our retrieve endpoint returns keys SUBMITTED within the given period.
+    add_key(active_at: active_at, submitted_at: time_in_date("23:59:59", fifteen_days_ago), data: '1' * 16)
+    add_key(active_at: active_at, submitted_at: time_in_date("00:00", fourteen_days_ago), data: '2' * 16)
+    add_key(active_at: active_at, submitted_at: time_in_date("01:59:59", yesterday_utc), data: '3' * 16)
+    add_key(active_at: active_at, submitted_at: time_in_date("02:00", yesterday_utc), data: '4' * 16)
+    add_key(active_at: active_at, submitted_at: time_in_date("02:00", yesterday_utc), data: '5' * 16)
+    add_key(active_at: active_at, submitted_at: time_in_date("02:00", today_utc), data: '6' * 16)
+
+    rsin = rolling_start_interval_number(active_at)
+
+    resp = get_date("00000")
+    export = assert_happy_zip_response(resp)
+    keys = [tek(
+      rolling_start_interval_number: rsin,
+      transmission_risk_level: 8,
+      data: "3333333333333333",
+    ), tek(
+      rolling_start_interval_number: rsin,
+      transmission_risk_level: 8,
+      data: "4444444444444444",
+    ), tek(
+      rolling_start_interval_number: rsin,
+      transmission_risk_level: 8,
+      data: "5555555555555555",
+    ),]
+    assert_keys(export, keys, region: 'CA', date_number: current_date_number - 15, date_range: 15)
+  end
+
   def test_period_bounds
     active_at = time_in_date('10:00', today_utc.prev_day(8))
     two_days_ago = yesterday_utc.prev_day(1)
@@ -258,9 +292,9 @@ class RetrieveTest < MiniTest::Test
     key.dsa_verify_asn1(digest, signature)
   end
 
-  def assert_keys(export, keys, region:, date_number:)
+  def assert_keys(export, keys, region:, date_number:, date_range: 1)
     start_time = date_number * 86400
-    end_time = (date_number + 1) * 86400
+    end_time = (date_number + date_range) * 86400
 
     assert_equal(
       Covidshield::TemporaryExposureKeyExport.new(
