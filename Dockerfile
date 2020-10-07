@@ -3,7 +3,7 @@
 ###
 FROM golang:1.14-alpine AS builder
 
-RUN apk update && apk add upx
+RUN apk add --no-cache upx=3.96-r0 
 
 ARG component=${component:-key-retrieval}
 ARG branch
