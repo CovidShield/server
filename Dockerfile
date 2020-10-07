@@ -3,6 +3,8 @@
 ###
 FROM golang:1.14-alpine AS builder
 
+RUN apk update && apk add upx
+
 ARG component=${component:-key-retrieval}
 ARG branch
 ARG revision
@@ -10,7 +12,7 @@ ARG revision
 ENV GO111MODULE=on
 ENV USER=covidshield
 ENV UID=10001
-ENV GOLDFLAGS="-X github.com/CovidShield/server/pkg/server.branch=${branch} -X github.com/CovidShield/server/pkg/server.revision=${revision}"
+ENV GOLDFLAGS="-s -w -X github.com/CovidShield/server/pkg/server.branch=${branch} -X github.com/CovidShield/server/pkg/server.revision=${revision}"
 
 WORKDIR /go/src/github.com/CovidShield/server
 
@@ -25,7 +27,7 @@ RUN adduser \
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="${GOLDFLAGS}" -o server ./cmd/${component}
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="${GOLDFLAGS}" -o server ./cmd/${component} && upx server
 
 ###
 # Step 2 - Build
