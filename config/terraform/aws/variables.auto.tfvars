@@ -21,14 +21,14 @@ ecs_name = "CovidShield"
 
 # Key Retrieval
 ecs_key_retrieval_name = "KeyRetrieval"
-# Value should come from a TF_VAR environment variable (e.g. set in a Github Secret)
+# Value should come from a TF_VAR environment variable (e.g. set in a GitHub Secret)
 # ecs_task_key_retrieval_env_hmac_key = ""
-# Value should come from a TF_VAR environment variable (e.g. set in a Github Secret)
+# Value should come from a TF_VAR environment variable (e.g. set in a GitHub Secret)
 # ecs_task_key_retrieval_env_ecdsa_key = ""
 
 # Key Submission
 ecs_key_submission_name = "KeySubmission"
-# Value should come from a TF_VAR environment variable (e.g. set in a Github Secret)
+# Value should come from a TF_VAR environment variable (e.g. set in a GitHub Secret)
 # Must be a string of the form <secret1>=<MMC_code>:<secret2>=<MMC_code> - https://www.mcc-mnc.com
 # ecs_task_key_submission_env_key_claim_token = ""
 
@@ -48,7 +48,7 @@ rds_db_subnet_group_name = "server"
 # Key Retrieval/Submission
 rds_server_db_name = "server"
 rds_server_db_user = "root"
-# Value should come from a TF_VAR environment variable (e.g. set in a Github Secret)
+# Value should come from a TF_VAR environment variable (e.g. set in a GitHub Secret)
 # rds_server_db_password       = ""
 rds_server_allocated_storage = "5"
 rds_server_instance_class    = "db.t3.small"
