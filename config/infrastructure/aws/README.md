@@ -58,7 +58,7 @@ All Terraform variables are defined in `config/terraform/aws/variables.tf` & the
 - `TF_VAR_ecs_task_key_submission_env_key_claim_token`
 - `TF_VAR_rds_backend_db_password`
 
-If you are using Terraform in Github actions the above can be set as Github secrets, and set as environment variables in your YAML file (see `.github/workflows/terraform.yml`).
+If you are using Terraform in GitHub actions the above can be set as GitHub secrets, and set as environment variables in your YAML file (see `.github/workflows/terraform.yml`).
 
 There is an optional Terraform variable that can be set to control which container to deploy. It should match a container tag that both Key Retrieval & Key Submission share. By default Terraform will deploy the latest commit on the master branch.
 
